@@ -36,7 +36,20 @@ class BookRepository {
             (err) => {
                 console.log(err);
                 throw err;
-            });
+            }
+		);
+	};
+
+    filterBook(name) {
+        return this.database.filterBook(name).then(
+            (results) => {
+                return results;
+            },
+
+            (err) => {
+            	console.log(err);
+            }
+		);
 	};
 
 	createBook(data) {
