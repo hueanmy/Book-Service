@@ -5,7 +5,7 @@ let router = express.Router();
 
 router.get('/', bookController.getBooks);
 
-router.get('/:id', bookController.getBook);
+router.get('/:id', bookController.filterBook);
 
 router.post('/', bookController.createBook);
 

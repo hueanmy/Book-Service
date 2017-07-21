@@ -1,6 +1,6 @@
 const BookRepository 	= require('./BookRepository');
 const DBConnection 		= require('./DBConnection');
-const DataFromMysql 	= require('./DataFromMysql');
+const DataFromMysql 	= require('./BookStore');
 
 let dataFromMysql = new DataFromMysql(DBConnection);
 let bookRepository = new BookRepository(dataFromMysql);
@@ -13,8 +13,8 @@ function getBooks(req, res, next){
     	.catch(next);
 };
 
-function getBook(req, res, next){
-    bookRepository.getBook(req.params.id)
+function filterBook(req, res, next){
+    bookRepository.filterBook(req.params.id)
 	    .then((book) => {
 	        res.json(book);
 	    })
@@ -46,7 +46,7 @@ function deleteBook(req, res, next){
 };
 
 exports.getBooks = getBooks;
-exports.getBook = getBook;
+exports.filterBook = filterBook;
 exports.createBook = createBook;
 exports.updateBook = updateBook;
 exports.deleteBook = deleteBook;

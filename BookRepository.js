@@ -23,8 +23,8 @@ class BookRepository {
 		);
 	};
 
-	getBook(id) {
-		return this.database.getBook(id).then(
+	filterBook(id) {
+		return this.database.filterBook(id).then(
 			(results) => {
 			    if(results.length >0 ) {
                     return new Book(results[0]);

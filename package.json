@@ -18,6 +18,7 @@
   "homepage": "https://github.com/huynn96/Book-Webservice#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "knex": "^0.13.0",
     "mysql": "^2.13.0"

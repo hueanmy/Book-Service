@@ -18,7 +18,7 @@ class DataFromMysql {
 		});
 	};
 
-	getBook(id) {
+	filterBook(id) {
 		let query = 'select * from book where id = ? ';
 
 		return new Promise((resolve, reject) => {
