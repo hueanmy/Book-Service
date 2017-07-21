@@ -1,9 +1,9 @@
 const BookRepository 	= require('./BookRepository');
 const DBConnection 		= require('./DBConnection');
-const DataFromMysql 	= require('./BookStore');
+const BookStore 	= require('./BookStore');
 
-let dataFromMysql = new DataFromMysql(DBConnection);
-let bookRepository = new BookRepository(dataFromMysql);
+let bookstore = new BookStore(DBConnection);
+let bookRepository = new BookRepository(bookstore);
 
 function getBooks(req, res, next){
     bookRepository.getBooks()

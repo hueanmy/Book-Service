@@ -1,4 +1,4 @@
-class DataFromMysql {
+class BookStore {
 
 	constructor (mysqlConnection) {
 		this.mysqlConnection = mysqlConnection;
@@ -90,4 +90,4 @@ class DataFromMysql {
 
 };
 
-module.exports = DataFromMysql;
+module.exports = BookStore;
