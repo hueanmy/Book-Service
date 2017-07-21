@@ -67,11 +67,11 @@ class BookRepository {
         )
 	};
 
-	updateBook(data){
+	updateBook(data, id){
 
 		let inforBook = new Book(data);
 
-		return this.database.updateBook(inforBook).then(
+		return this.database.updateBook(inforBook, id).then(
 			(results) => {
 				return results;
 			},

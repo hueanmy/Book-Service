@@ -38,9 +38,9 @@ function createBook(req, res, next){
 };
 
 function updateBook(req, res, next){
-    bookRepository.updateBook(req.body)
+    bookRepository.updateBook(req.body, req.params.id)
 	    .then((result) => {
-	        res.end('Changed ' + result.changedRows + ' rows');
+            res.json(Object.assign({id: req.params.id}, req.body));
 	    })
 	    .catch(next);
 };
