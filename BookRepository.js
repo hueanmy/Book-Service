@@ -40,7 +40,18 @@ class BookRepository {
 	};
 
 	createBook(data) {
-		
+        let inforBook = new Book(data);
+
+        return this.database.createBook(inforBook).then(
+            (results) => {
+                return results;
+            },
+
+            (err) => {
+                console.log(err);
+                throw err;
+            }
+        )
 	};
 
 	updateBook(data){
