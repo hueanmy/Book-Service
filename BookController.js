@@ -11,7 +11,7 @@ function getBooks(req, res, next){
         	res.json(books);
     	})
     	.catch(next);
-};
+}
 
 function getBookById(req, res, next){
     bookRepository.getBookById(req.params.id)
@@ -19,7 +19,7 @@ function getBookById(req, res, next){
 	        res.json(book);
 	    })
 	    .catch(next);
-};
+}
 
 function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
@@ -27,15 +27,15 @@ function getBookByName(req, res, next){
             res.json(book);
         })
         .catch(next);
-};
+}
 
 function createBook(req, res, next){
     bookRepository.createBook(req.body)
-	    .then((result) => {
-	        res.end('InsertId ' + result.insertId);
+	    .then((book) => {
+            res.json(Object.assign({id: book.insertId}, req.body));
 	    })
 	    .catch(next);
-};
+}
 
 function updateBook(req, res, next){
     bookRepository.updateBook(req.body, req.params.id)
@@ -43,15 +43,15 @@ function updateBook(req, res, next){
             res.json(Object.assign({id: req.params.id}, req.body));
 	    })
 	    .catch(next);
-};
+}
 
 function deleteBook(req, res, next){
     bookRepository.deleteBook(req.params.id)
 	    .then((result) => {
-	        res.end('Deleted ' + result.affectedRows + ' rows');
+            res.json(Object.assign({id: req.params.id}));
 	    })
 	    .catch(next);
-};
+}
 
 exports.getBooks      = getBooks;
 exports.getBookById   = getBookById;
