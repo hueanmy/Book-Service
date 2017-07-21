@@ -18,7 +18,7 @@ class BookStore {
 		});
 	};
 
-	filterBook(id) {
+    getBookById(id) {
 		let query = 'select * from book where id = ? ';
 
 		return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ class BookStore {
 		});
 	};
 
-    filterBook(name) {
+    getBookByName(name) {
         let query = " select * from book where name like '%" + name + "%' ";
 
         return new Promise((resolve, reject) => {

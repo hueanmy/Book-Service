@@ -13,16 +13,16 @@ function getBooks(req, res, next){
     	.catch(next);
 };
 
-function filterId(req, res, next){
-    bookRepository.filterBook(req.params.id)
+function getBookById(req, res, next){
+    bookRepository.getBookById(req.params.id)
 	    .then((book) => {
 	        res.json(book);
 	    })
 	    .catch(next);
 };
 
-function filterName(req, res, next){
-    bookRepository.filterBook(req.params.name)
+function getBookByName(req, res, next){
+    bookRepository.getBookByName(req.params.name)
         .then((book) => {
             res.json(book);
         })
@@ -53,9 +53,9 @@ function deleteBook(req, res, next){
 	    .catch(next);
 };
 
-exports.getBooks = getBooks;
-exports.filterId = filterId;
-exports.filterName = filterName;
-exports.createBook = createBook;
-exports.updateBook = updateBook;
-exports.deleteBook = deleteBook;
+exports.getBooks      = getBooks;
+exports.getBookById   = getBookById;
+exports.getBookByName = getBookByName;
+exports.createBook    = createBook;
+exports.updateBook    = updateBook;
+exports.deleteBook    = deleteBook;

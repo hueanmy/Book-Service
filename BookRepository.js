@@ -23,8 +23,8 @@ class BookRepository {
 		);
 	};
 
-	filterBook(id) {
-		return this.database.filterBook(id).then(
+    getBookById(id) {
+		return this.database.getBookById(id).then(
 			(results) => {
 			    if(results.length >0 ) {
                     return new Book(results[0]);
@@ -40,8 +40,8 @@ class BookRepository {
 		);
 	};
 
-    filterBook(name) {
-        return this.database.filterBook(name).then(
+    getBookByName(name) {
+        return this.database.getBookByName(name).then(
             (results) => {
                 return results;
             },
