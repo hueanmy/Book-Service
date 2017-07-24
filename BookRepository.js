@@ -48,6 +48,7 @@ class BookRepository {
 
             (err) => {
             	console.log(err);
+            	throw err;
             }
 		);
 	};
@@ -55,26 +56,10 @@ class BookRepository {
 	createBook(data) {
         let inforBook = new Book(data);
 
-        return this.database.createBook(inforBook).then(
-            (results) => {
-                return results;
-            },
-
-            (err) => {
-                console.log(err);
-                throw err;
-            }
-        )
-	};
-
-	updateBook(data, id){
-
-		// let inforBook = new Book(data);
-
-        return this.database.getBookById(id).then(
-            (results) => {
-                if(results.length > 0) {
-                    return this.database.updateBook(data, id).then(
+        return this.database.getBookByFullName(data.name).then(
+			(results) => {
+				if(results.length === 0) {
+                    return this.database.createBook(inforBook).then(
                         (results) => {
                             return results;
                         },
@@ -84,6 +69,65 @@ class BookRepository {
                             throw err;
                         }
                     )
+				}
+				throw new Error('name duplicate');
+			},
+			(err) => {
+				throw err;
+			}
+		)
+
+        // return this.database.createBook(inforBook).then(
+        //     (results) => {
+        //         return results;
+        //     },
+        //
+        //     (err) => {
+        //         console.log(err);
+        //         throw err;
+        //     }
+        // )
+	};
+
+	updateBook(data, id){
+
+		// let inforBook = new Book(data);
+
+        return this.database.getBookById(id).then(
+            (results) => {
+                if(results.length > 0) {
+
+                    return this.database.getBookByFullName(data.name).then(
+                        (results) => {
+                            if(results.length === 0) {
+                                return this.database.updateBook(data, id).then(
+                                    (results) => {
+                                        return results;
+                                    },
+
+                                    (err) => {
+                                        console.log(err);
+                                        throw err;
+                                    }
+                                )
+                            }
+                            throw new Error('name duplicate');
+                        },
+                        (err) => {
+                            throw err;
+                        }
+                    )
+
+                    // return this.database.updateBook(data, id).then(
+                    //     (results) => {
+                    //         return results;
+                    //     },
+                    //
+                    //     (err) => {
+                    //         console.log(err);
+                    //         throw err;
+                    //     }
+                    // )
                 } else {
                     throw new Error('book is not available') ;
                 }

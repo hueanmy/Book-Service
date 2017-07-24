@@ -48,6 +48,19 @@ class BookStore {
         });
     };
 
+	getBookByFullName(name){
+
+		let query = 'select * from book where name = ?';
+
+		return new Promise((resolve, reject) => {
+			this.mysqlConnection.query(query, [name], (err, results) => {
+				if(err) {
+					reject(err);
+				}
+				resolve(results);
+			});
+		});
+	}
 
 	createBook(data) {
         let query = 'insert into book set ? ';

@@ -11,6 +11,8 @@ router.get('/', bookController.getBooks);
 
 router.get('/:id', validateIdNumber, bookController.getBookById);
 
+router.get('/name/:name', bookController.getBookByName);
+
 router.post('/', validateInputName, validateInputAuthor, bookController.createBook);
 
 router.put('/:id', validateIdNumber, validateInputName, validateInputAuthor, validateIdNumber, bookController.updateBook);
