@@ -96,37 +96,17 @@ class BookRepository {
             (results) => {
                 if(results.length > 0) {
 
-                    return this.database.getBookByFullName(data.name).then(
+                    return this.database.updateBook(data, id).then(
                         (results) => {
-                            if(results.length === 0) {
-                                return this.database.updateBook(data, id).then(
-                                    (results) => {
-                                        return results;
-                                    },
-
-                                    (err) => {
-                                        console.log(err);
-                                        throw err;
-                                    }
-                                )
-                            }
-                            throw new Error('name duplicate');
+                            return results;
                         },
+
                         (err) => {
+                            console.log(err);
                             throw err;
                         }
                     )
 
-                    // return this.database.updateBook(data, id).then(
-                    //     (results) => {
-                    //         return results;
-                    //     },
-                    //
-                    //     (err) => {
-                    //         console.log(err);
-                    //         throw err;
-                    //     }
-                    // )
                 } else {
                     throw new Error('book is not available') ;
                 }
@@ -137,16 +117,6 @@ class BookRepository {
 
         );
 
-		// return this.database.updateBook(inforBook, id).then(
-		// 	(results) => {
-		// 		return results;
-		// 	},
-        //
-		// 	(err) => {
-		// 		console.log(err);
-		// 		throw err;
-		// 	}
-		// )
 	};
 
 	deleteBook(id){
