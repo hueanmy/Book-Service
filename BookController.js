@@ -21,7 +21,7 @@ function getBooks(req, res, next){
 function getBookById(req, res, next){
     bookRepository.getBookById(req.params.id)
 	    .then((book) => {
-    		if (book != null) {
+    		if (book !== null) {
     			res.json(book);
 			}
 			else {
@@ -35,7 +35,7 @@ function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
         .then((book) => {
 
-            if (book != null) {
+            if (book !== null) {
                 res.json(book);
             }
             else {
