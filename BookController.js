@@ -35,7 +35,7 @@ function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
         .then((book) => {
 
-            if (book !== null) {
+            if (book != null) {
                 res.json(book);
             }
             else {
