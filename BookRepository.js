@@ -76,21 +76,9 @@ class BookRepository {
 			}
 		)
 
-        // return this.database.createBook(inforBook).then(
-        //     (results) => {
-        //         return results;
-        //     },
-        //
-        //     (err) => {
-        //         console.log(err);
-        //         throw err;
-        //     }
-        // )
 	};
 
 	updateBook(data, id){
-
-		// let inforBook = new Book(data);
 
         return this.database.getBookById(id).then(
             (results) => {
