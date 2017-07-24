@@ -42,7 +42,9 @@ function getBookByName(req, res, next){
                 res.status(404).send('Not found');
             }
         })
-        .catch(next);
+        .catch((err) => {
+    		res.status(500).json({message: err.message});
+		});
 }
 
 function createBook(req, res, next){
@@ -50,16 +52,18 @@ function createBook(req, res, next){
 	    .then((book) => {
             res.status(201).json(Object.assign({id: book.insertId}, req.body));
 	    })
-	    .catch(next);
+	    .catch((err) => {
+    		res.status(500).json({message: err.message});
+		});
 }
 
-function updateBook(req, res, next){
+function updateBook(req, res){
     bookRepository.updateBook(req.body, req.params.id)
 	    .then(() => {
             res.status(202).json(Object.assign({id: req.params.id}, req.body));
 	    })
         .catch((err) => {
-            res.status(500).json({'message': err.message})
+            res.status(500).json({message: err.message});
         });
 }
 
@@ -68,7 +72,9 @@ function deleteBook(req, res, next){
 	    .then(() => {
             res.json(Object.assign({id: req.params.id}));
 	    })
-	    .catch(next);
+	    .catch((err) =>{
+            res.status(500).json({message: err.message});
+		});
 }
 
 exports.getBooks      = getBooks;
