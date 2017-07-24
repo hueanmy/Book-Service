@@ -40,7 +40,9 @@ class BookRepository {
     getBookByName(name) {
         return this.database.getBookByName(name).then(
             (results) => {
-                return results;
+            	if(results.length > 0) {
+                    return results;
+                }
             },
 
             (err) => {

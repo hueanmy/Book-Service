@@ -8,11 +8,11 @@ let bookRepository      = new BookRepository(bookstore);
 function getBooks(req, res, next){
     bookRepository.getBooks()
     	.then((books) => {
-    		if(books == null) {
-    			res.status(404);
+    		if(books != null) {
+                res.json(books);
 			}
 			else {
-                res.json(books);
+                res.status(404).send('Not found');
             }
     	})
     	.catch(next);
