@@ -34,7 +34,6 @@ function getBookById(req, res, next){
 function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
         .then((book) => {
-
             res.json(book);
         })
         .catch((err) => {
