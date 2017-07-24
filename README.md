@@ -7,6 +7,7 @@
   * Nodejs
   * Express
   * Restful API
+  * Mysql
   * ...
 
 #### 2. SETUP
@@ -14,4 +15,4 @@
 * Step 1: 
   * Clone project : [https://github.com/hueanmy/Book-Service](https://github.com/hueanmy/Book-Service)
 * Step 2: 
-  * Setup envirome
+  * Setup environment: `npm install` 
