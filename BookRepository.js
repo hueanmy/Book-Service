@@ -69,18 +69,41 @@ class BookRepository {
 
 	updateBook(data, id){
 
-		let inforBook = new Book(data);
+		// let inforBook = new Book(data);
 
-		return this.database.updateBook(inforBook, id).then(
-			(results) => {
-				return results;
-			},
+        return this.database.getBookById(id).then(
+            (results) => {
+                if(results.length > 0) {
+                    return this.database.updateBook(data, id).then(
+                        (results) => {
+                            return results;
+                        },
 
-			(err) => {
-				console.log(err);
-				throw err;
-			}
-		)
+                        (err) => {
+                            console.log(err);
+                            throw err;
+                        }
+                    )
+                } else {
+                    throw new Error('book is not available') ;
+                }
+            },
+            (err) => {
+                throw err;
+            }
+
+        );
+
+		// return this.database.updateBook(inforBook, id).then(
+		// 	(results) => {
+		// 		return results;
+		// 	},
+        //
+		// 	(err) => {
+		// 		console.log(err);
+		// 		throw err;
+		// 	}
+		// )
 	};
 
 	deleteBook(id){

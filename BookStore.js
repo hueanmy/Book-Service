@@ -50,7 +50,7 @@ class BookStore {
 
 
 	createBook(data) {
-        let query = 'insert into book set ? '
+        let query = 'insert into book set ? ';
 
         return new Promise((resolve, reject) => {
             this.mysqlConnection.query(query, [data], (err, result) => {
