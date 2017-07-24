@@ -35,12 +35,7 @@ function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
         .then((book) => {
 
-            if (book != null) {
-                res.json(book);
-            }
-            else {
-                res.status(404).send('Not found');
-            }
+            res.json(book);
         })
         .catch((err) => {
     		res.status(500).json({message: err.message});
