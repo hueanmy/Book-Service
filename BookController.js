@@ -8,7 +8,12 @@ let bookRepository      = new BookRepository(bookstore);
 function getBooks(req, res, next){
     bookRepository.getBooks()
     	.then((books) => {
-        	res.json(books);
+    		if(books == null) {
+    			res.status(404);
+			}
+			else {
+                res.json(books);
+            }
     	})
     	.catch(next);
 }
@@ -16,7 +21,12 @@ function getBooks(req, res, next){
 function getBookById(req, res, next){
     bookRepository.getBookById(req.params.id)
 	    .then((book) => {
-	        res.json(book);
+    		if (book != null) {
+    			res.json(book);
+			}
+			else {
+                res.status(404).send('Not found');
+            }
 	    })
 	    .catch(next);
 }
@@ -24,7 +34,13 @@ function getBookById(req, res, next){
 function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
         .then((book) => {
-            res.json(book);
+
+            if (book != null) {
+                res.json(book);
+            }
+            else {
+                res.status(404).send('Not found');
+            }
         })
         .catch(next);
 }
@@ -32,7 +48,7 @@ function getBookByName(req, res, next){
 function createBook(req, res, next){
     bookRepository.createBook(req.body)
 	    .then((book) => {
-            res.json(Object.assign({id: book.insertId}, req.body));
+            res.status(201).json(Object.assign({id: book.insertId}, req.body));
 	    })
 	    .catch(next);
 }
@@ -40,7 +56,7 @@ function createBook(req, res, next){
 function updateBook(req, res, next){
     bookRepository.updateBook(req.body, req.params.id)
 	    .then(() => {
-            res.json(Object.assign({id: req.params.id}, req.body));
+            res.status(202).json(Object.assign({id: req.params.id}, req.body));
 	    })
         .catch((err) => {
             res.status(500).json({'message': err.message})

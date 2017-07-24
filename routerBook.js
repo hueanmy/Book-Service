@@ -9,6 +9,8 @@ let router = express.Router();
 
 router.get('/', bookController.getBooks);
 
+router.get('/name/:name', bookController.getBookByName);
+
 router.get('/:id', validateIdNumber, bookController.getBookById);
 
 router.post('/', validateInputName, validateInputAuthor, bookController.createBook);

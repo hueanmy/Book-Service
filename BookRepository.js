@@ -29,10 +29,7 @@ class BookRepository {
 			    if(results.length >0 ) {
                     return new Book(results[0]);
                 }
-			    else {
-                    return 'Not found';
-                }
-				},
+			},
             (err) => {
                 console.log(err);
                 throw err;
