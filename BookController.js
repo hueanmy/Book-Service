@@ -70,7 +70,7 @@ function updateBook(req, res){
 function deleteBook(req, res, next){
     bookRepository.deleteBook(req.params.id)
 	    .then(() => {
-            res.json(Object.assign({id: req.params.id}));
+            res.send('Delete successful');
 	    })
 	    .catch((err) =>{
             res.status(500).json({message: err.message});
