@@ -109,15 +109,25 @@ class BookRepository {
 
 	deleteBook(id){
 
-		return this.database.deleteBook(id).then(
+		return this.database.getBookById(id).then(
 			(results) => {
-				return results;
-			},
+				if(results.length > 0){
+                    return this.database.deleteBook(id).then(
+                        (results) => {
+                            return results;
+                        },
 
-			(err) => {
-				console.log(err);
-				throw err;
-			}
+                        (err) => {
+                            console.log(err);
+                            throw err;
+                        }
+                    )
+				}
+				throw new Error('Book is not available');
+			},
+		(err) => {
+			throw err;
+		}
 		)
 		
 	};
