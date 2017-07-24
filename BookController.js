@@ -8,7 +8,7 @@ let bookRepository      = new BookRepository(bookstore);
 function getBooks(req, res, next){
     bookRepository.getBooks()
     	.then((books) => {
-    		if(books != null) {
+    		if(books !== null) {
                 res.json(books);
 			}
 			else {
@@ -21,7 +21,7 @@ function getBooks(req, res, next){
 function getBookById(req, res, next){
     bookRepository.getBookById(req.params.id)
 	    .then((book) => {
-    		if (book != null) {
+    		if (book !== null) {
     			res.json(book);
 			}
 			else {
@@ -35,7 +35,7 @@ function getBookByName(req, res, next){
     bookRepository.getBookByName(req.params.name)
         .then((book) => {
 
-            if (book != null) {
+            if (book !== null) {
                 res.json(book);
             }
             else {
