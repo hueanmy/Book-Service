@@ -8,7 +8,7 @@ let bookRepository      = new BookRepository(bookstore);
 function getBooks(req, res, next){
     bookRepository.getBooks()
     	.then((books) => {
-    		if(books != null) {
+    		if(books !== null) {
                 res.json(books);
 			}
 			else {
