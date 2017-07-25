@@ -1,15 +1,14 @@
 const express 		 = require('express');
-const bookController = require('./BookController');
+const bookController = require('./controller/book-controller');
 
-const validateIdNumber    = require('./validate/number');
-const validateInputName   = require('./validate/name');
-const validateInputAuthor = require('./validate/author');
+const validateIdNumber    = require('./middleware/number');
+const conditionMiddleware = require('./middleware/condition-middleware');
+const validateInputName   = require('./middleware/name');
+const validateInputAuthor = require('./middleware/author');
 
 let router = express.Router();
 
-router.get('/', bookController.getBooks);
-
-router.get('/name/:name', bookController.getBookByName);
+router.get('/', conditionMiddleware, bookController.getBooks);
 
 router.get('/:id', validateIdNumber, bookController.getBookById);
 
