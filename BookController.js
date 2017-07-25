@@ -1,9 +1,10 @@
 const DBConnection 		= require('./DBConnection');
 const BookStore 	    = require('./BookStore');
 const GetBookByIdCondition = require('./searching-conditions/get-book-by-id-condition');
-
+const Book = require('./book');
 
 let bookStore           = new BookStore(DBConnection);
+
 
 function getBooks(req, res, next){
     bookStore.getBooks()
@@ -41,10 +42,11 @@ function getBookByName(req, res, next){
 		});
 }
 
-function createBook(req, res, next){
-    bookStore.createBook(req.body)
+function createBook(req, res){
+    let book = new Book(req.body.name, req.body.author);
+    bookStore.create(book)
 	    .then((book) => {
-            res.status(201).json(Object.assign({id: book.insertId}, req.body));
+            res.status(201).json(book.toJson());
 	    })
 	    .catch((err) => {
     		res.status(500).json({message: err.message});
@@ -52,9 +54,12 @@ function createBook(req, res, next){
 }
 
 function updateBook(req, res){
-    bookStore.updateBook(req.body, req.params.id)
+
+    let book = new Book(req.body.name, req.body.author).setId(req.params.id);
+
+    bookStore.update(book)
 	    .then(() => {
-            res.status(202).json(Object.assign({id: req.params.id}, req.body));
+            res.status(202).json(book.toJson());
 	    })
         .catch((err) => {
             res.status(500).json({message: err.message});

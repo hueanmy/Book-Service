@@ -21,20 +21,22 @@ class BookStore {
 	}
 
 	create(book) {
-        let query = 'insert into book set ?';
+        let query = 'insert into book (name, author) values (?, ?)';
 
         return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, [book], (error, result) =>
-                error ? reject(error) : resolve(result)
+            this.mysqlConnection.query(query, [book.name, book.author], (error, result) => {
+                    book.setId(result.insertId);
+                    error ? reject(error) : resolve(book);
+                }
             );
         });
 	};
 
-	updateBook(infoBook, id) {
+	update(book) {
 		let query = 'update book set author= ?, name= ? where id= ?';
 
 		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, [infoBook.author, infoBook.name, id], (error, results) => {
+			this.mysqlConnection.query(query, [book.author, book.name, book.id], (error, results) => {
 				if(error) {
                     reject(error);
 				}
