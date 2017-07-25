@@ -1,7 +1,10 @@
 const DBConnection 		= require('./DBConnection');
 const BookStore 	    = require('./BookStore');
+const GetBookByIdCondition = require('./searching-conditions/get-book-by-id-condition');
+
 
 let bookStore           = new BookStore(DBConnection);
+
 function getBooks(req, res, next){
     bookStore.getBooks()
     	.then((books) => {
@@ -16,10 +19,10 @@ function getBooks(req, res, next){
 }
 
 function getBookById(req, res, next){
-    bookStore.getBookById(req.params.id)
-	    .then((book) => {
-    		if (book !== null) {
-    			res.json(book);
+    bookStore.search(new GetBookByIdCondition(req.params.id))
+	    .then((books) => {
+    		if (books.length) {
+    			res.json(books[0].toJson());
 			}
 			else {
                 res.status(404).send('Not found');

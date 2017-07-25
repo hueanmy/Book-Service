@@ -1,71 +1,30 @@
+const Book = require('./book');
+
 class BookStore {
 
 	constructor (mysqlConnection) {
 		this.mysqlConnection = mysqlConnection;
 	}
 
-	getBooks() {
-		let query = 'select * from book';
-
-		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, (error, result) => {
-				if (error){
-					reject(error);
-				} else {
-					resolve(result);
-				}
-			});
-		});
-	};
-
-    getBookById(id) {
-		let query = 'select * from book where id = ?';
-
-		return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, [id], (error, result) => {
-                if(error) {
+	search(condition) {
+        return new Promise((resolve, reject) => {
+            this.mysqlConnection.query(condition.getSQL(), condition.getParameters(), (error, result) => {
+                if (error){
                     reject(error);
                 } else {
-                    resolve(result[0]);
-                }
-            });
-		});
-	};
-
-    getBookByName(name) {
-        let query = " select * from book where name like '%" + name + "%' ";
-
-        return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, (error, result) => {
-                if(error) {
-                    reject(error);
-                }
-                else {
-                    resolve(result);
+                    resolve(result.map((rawBook) => {
+                        return new Book(rawBook.name, rawBook.author);
+                    }));
                 }
             });
         });
-    };
-
-	getBookByFullName(name) {
-
-		let query = 'select * from book where name = ? limit 1';
-
-		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, [name], (error, results) => {
-				if(error) {
-					reject(error);
-				}
-				resolve(results[0]);
-			});
-		});
 	}
 
-	createBook(data) {
+	create(book) {
         let query = 'insert into book set ?';
 
         return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, [data], (error, result) =>
+            this.mysqlConnection.query(query, [book], (error, result) =>
                 error ? reject(error) : resolve(result)
             );
         });
