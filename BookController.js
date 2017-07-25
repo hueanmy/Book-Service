@@ -1,14 +1,15 @@
 const DBConnection 		= require('./DBConnection');
 const BookStore 	    = require('./BookStore');
 const GetBookByIdCondition = require('./searching-conditions/get-book-by-id-condition');
-
+const GetBookByNameCondition = require('./searching-conditions/get-book-by-name-condition');
+const GetBookCondition = require('./searching-conditions/get-book-condition');
 
 let bookStore           = new BookStore(DBConnection);
 
 function getBooks(req, res, next){
-    bookStore.getBooks()
+    bookStore.search(new GetBookCondition())
     	.then((books) => {
-    		if(books !== null) {
+    		if(books.length) {
                 res.json(books);
 			}
 			else {
@@ -32,9 +33,9 @@ function getBookById(req, res, next){
 }
 
 function getBookByName(req, res, next){
-    bookStore.getBookByName(req.params.name)
-        .then((book) => {
-            res.json(book);
+    bookStore.search(new GetBookByNameCondition(req.params.name))
+        .then((books) => {
+            res.json(books.map( book => book.toJson() ));
         })
         .catch((err) => {
     		res.status(500).json({message: err.message});
