@@ -1,12 +1,9 @@
-const BookRepository 	= require('./BookRepository');
 const DBConnection 		= require('./DBConnection');
 const BookStore 	    = require('./BookStore');
 
-let bookstore           = new BookStore(DBConnection);
-let bookRepository      = new BookRepository(bookstore);
-
+let bookStore           = new BookStore(DBConnection);
 function getBooks(req, res, next){
-    bookRepository.getBooks()
+    bookStore.getBooks()
     	.then((books) => {
     		if(books !== null) {
                 res.json(books);
@@ -19,7 +16,7 @@ function getBooks(req, res, next){
 }
 
 function getBookById(req, res, next){
-    bookRepository.getBookById(req.params.id)
+    bookStore.getBookById(req.params.id)
 	    .then((book) => {
     		if (book !== null) {
     			res.json(book);
@@ -32,7 +29,7 @@ function getBookById(req, res, next){
 }
 
 function getBookByName(req, res, next){
-    bookRepository.getBookByName(req.params.name)
+    bookStore.getBookByName(req.params.name)
         .then((book) => {
             res.json(book);
         })
@@ -42,7 +39,7 @@ function getBookByName(req, res, next){
 }
 
 function createBook(req, res, next){
-    bookRepository.createBook(req.body)
+    bookStore.createBook(req.body)
 	    .then((book) => {
             res.status(201).json(Object.assign({id: book.insertId}, req.body));
 	    })
@@ -52,7 +49,7 @@ function createBook(req, res, next){
 }
 
 function updateBook(req, res){
-    bookRepository.updateBook(req.body, req.params.id)
+    bookStore.updateBook(req.body, req.params.id)
 	    .then(() => {
             res.status(202).json(Object.assign({id: req.params.id}, req.body));
 	    })
@@ -62,7 +59,7 @@ function updateBook(req, res){
 }
 
 function deleteBook(req, res, next){
-    bookRepository.deleteBook(req.params.id)
+    bookStore.deleteBook(req.params.id)
 	    .then(() => {
             res.send('Delete successful');
 	    })

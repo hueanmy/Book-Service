@@ -8,9 +8,9 @@ class BookStore {
 		let query = 'select * from book';
 
 		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, (err, result) => {
-				if (err){
-					reject(err);
+			this.mysqlConnection.query(query, (error, result) => {
+				if (error){
+					reject(error);
 				} else {
 					resolve(result);
 				}
@@ -19,15 +19,14 @@ class BookStore {
 	};
 
     getBookById(id) {
-		let query = 'select * from book where id = ? ';
+		let query = 'select * from book where id = ?';
 
 		return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, [id], (err, result) => {
-                if(err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
+            this.mysqlConnection.query(query, [id], (error, result) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(result[0]);
                 }
             });
 		});
@@ -37,9 +36,9 @@ class BookStore {
         let query = " select * from book where name like '%" + name + "%' ";
 
         return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, (err, result) => {
-                if(err) {
-                    reject(err);
+            this.mysqlConnection.query(query, (error, result) => {
+                if(error) {
+                    reject(error);
                 }
                 else {
                     resolve(result);
@@ -48,32 +47,27 @@ class BookStore {
         });
     };
 
-	getBookByFullName(name){
+	getBookByFullName(name) {
 
-		let query = 'select * from book where name = ?';
+		let query = 'select * from book where name = ? limit 1';
 
 		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, [name], (err, results) => {
-				if(err) {
-					reject(err);
+			this.mysqlConnection.query(query, [name], (error, results) => {
+				if(error) {
+					reject(error);
 				}
-				resolve(results);
+				resolve(results[0]);
 			});
 		});
 	}
 
 	createBook(data) {
-        let query = 'insert into book set ? ';
+        let query = 'insert into book set ?';
 
         return new Promise((resolve, reject) => {
-            this.mysqlConnection.query(query, [data], (err, result) => {
-                if(err) {
-                    reject(err);
-                }
-                else {
-                    resolve(result);
-                }
-            });
+            this.mysqlConnection.query(query, [data], (error, result) =>
+                error ? reject(error) : resolve(result)
+            );
         });
 	};
 
@@ -81,9 +75,11 @@ class BookStore {
 		let query = 'update book set author= ?, name= ? where id= ?';
 
 		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, [infoBook.author, infoBook.name, id], (err, results) => {
-				if(err)
-					reject(err);
+			this.mysqlConnection.query(query, [infoBook.author, infoBook.name, id], (error, results) => {
+				if(error) {
+                    reject(error);
+				}
+
 				resolve(results);
 			});
 		});
@@ -93,14 +89,14 @@ class BookStore {
 		let query = 'delete from book where id = ?';
 
 		return new Promise((resolve, reject) => {
-			this.mysqlConnection.query(query, [id], (err, results) => {
-				if(err)
-					reject(err);
+			this.mysqlConnection.query(query, [id], (error, results) => {
+				if(error) {
+                    reject(error);
+				}
 				resolve(results);
 			});
 		});
 	};
-
-};
+}
 
 module.exports = BookStore;
