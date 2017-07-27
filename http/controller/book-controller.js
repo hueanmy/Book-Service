@@ -28,7 +28,7 @@ function createBook(request, response){
 		});
 }
 
-function updateBook(request, response){
+function updateBook(request, response) {
 
     bookStore.update(request.book)
 	    .then(() => {

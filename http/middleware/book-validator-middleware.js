@@ -16,5 +16,9 @@ module.exports = function(request, response, next) {
     if(!request.book) {
     	request.book = new Book(request.body.name, request.body.author);
     }
+
+    request.book.name = request.body.name;
+    request.book.author = request.body.author;
+
     next();
 };
