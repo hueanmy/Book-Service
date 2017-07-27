@@ -1,10 +1,10 @@
-const DBConnection 		= require('../../database/db-connection');
-const BookStore 	    = require('../../book/book-store');
-const GetBookByIdCondition = require('../../book/searching-conditions/get-book-by-id-condition');
-const Book = require('../../book/book');
+const DBConnection 		     = require('../../database/db-connection');
+const BookStore 	         = require('../../book/book-store');
+const GetBookByIdCondition   = require('../../book/searching-conditions/get-book-by-id-condition');
+const Book                   = require('../../book/book');
 const GetBookByNameCondition = require('../../book/searching-conditions/get-book-by-name-condition');
 
-let bookStore           = new BookStore(DBConnection);
+let bookStore                = new BookStore(DBConnection);
 
 function getBooks(request, response, next) {
     bookStore.search(request.condition)
@@ -15,31 +15,11 @@ function getBooks(request, response, next) {
 }
 
 function getBookById(request, response, next){
-    bookStore.search(new GetBookByIdCondition(request.params.id))
-	    .then((books) => {
-    		if (books.length) {
-    			response.json(books[0].toJson());
-			}
-			else {
-                response.status(404).send('Not found');
-            }
-	    })
-	    .catch(next);
-}
-
-function getBookByName(request, response){
-    bookStore.search(new GetBookByNameCondition(request.params.name))
-        .then((books) => {
-            response.json(books.map( book => book.toJson() ));
-        })
-        .catch((err) => {
-    		response.status(500).json({message: err.message});
-		});
+    response.json(request.book.toJson());
 }
 
 function createBook(request, response){
-    let book = new Book(request.body.name, request.body.author);
-    bookStore.create(book)
+    bookStore.create(request.book)
 	    .then((book) => {
             response.status(201).json(book.toJson());
 	    })
@@ -50,11 +30,9 @@ function createBook(request, response){
 
 function updateBook(request, response){
 
-    let book = new Book(request.body.name, request.body.author).setId(request.params.id);
-
-    bookStore.update(book)
+    bookStore.update(request.book)
 	    .then(() => {
-            response.status(202).json(book.toJson());
+            response.status(202).json(request.book.toJson());
 	    })
         .catch((err) => {
             response.status(500).json({message: err.message});
@@ -62,9 +40,9 @@ function updateBook(request, response){
 }
 
 function deleteBook(request, response){
-    bookStore.deleteBook(request.params.id)
+    bookStore.deleteBook(request.book.id)
 	    .then(() => {
-            response.json({message: `Book has id = ${request.params.id} is deleted`});
+            response.json(request.book.toJson());
 	    })
 	    .catch((err) =>{
             response.status(500).json({message: err.message});
@@ -73,7 +51,6 @@ function deleteBook(request, response){
 
 exports.getBooks      = getBooks;
 exports.getBookById   = getBookById;
-exports.getBookByName = getBookByName;
 exports.createBook    = createBook;
 exports.updateBook    = updateBook;
 exports.deleteBook    = deleteBook;

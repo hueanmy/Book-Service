@@ -1,4 +1,4 @@
-const GetBookCondition = require('../../book/searching-conditions/get-book-condition');
+const GetBookCondition       = require('../../book/searching-conditions/get-book-condition');
 const GetBookByNameCondition = require('../../book/searching-conditions/get-book-by-name-condition');
 
 module.exports = function (request, response, next) {
